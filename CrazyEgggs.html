@@ -1,0 +1,957 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Crazy about Eggs</title>
+    <link
+      href="https://fonts.googleapis.com/css?family=Poppins:300,900&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  </head>
+<style>
+    .preloader{
+  align-items: center;
+  background: slateblue;
+  display: flex;
+  height: 100vh;
+  justify-content: center;
+  left: 0;
+  position: fixed;
+  top: 0;
+  transition: opacity 0.3s linear;
+  width: 100%;
+  z-index: 9999;
+}
+    body {
+        background-color:#fff3e6;
+  margin: 0;
+  font-family: "Poppins", sans-serif;
+  overflow-x: hidden;
+}
+
+.site-logo {
+  font-weight: 900;
+  font-size: 0.8rem;
+  color: var(--text);
+  text-decoration: none;
+}
+
+header {
+  --text: #f4f4f4;
+  --text-inverse: #333;
+  --background: transparent;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 999;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 2em 3em;
+  transition: background 250ms ease-in;
+  background: var(--background);
+  color: var(--text);
+}
+
+.nav__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+}
+
+.nav__link {
+  --spacing: 1em;
+  text-decoration: none;
+  color: inherit;
+  display: inline-block;
+  padding: calc(var(--spacing) / 2) var(--spacing);
+  position: relative;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  font-size: 0.9rem;
+}
+
+.nav__link:after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: var(--spacing);
+  right: var(--spacing);
+  height: 2px;
+  background: currentColor;
+  -webkit-transform: scaleX(0);
+  transform: scaleX(0);
+  transition: -webkit-transform 150ms ease-in-out;
+  transition: transform 150ms ease-in-out;
+  transition: transform 150ms ease-in-out, -webkit-transform 150ms ease-in-out;
+}
+
+.nav__link:hover::after {
+  -webkit-transform: scaleX(1);
+  transform: scaleX(1);
+}
+
+.nav__link--btn {
+  border: 1.5px solid currentColor;
+  border-radius: 2em;
+  margin-left: 1em;
+  transition: background 250ms ease-in-out;
+  letter-spacing: 1px;
+  padding: 0.75em 1.5em;
+}
+
+.nav__link--btn:hover {
+  background: var(--text);
+  color: var(--text-inverse);
+  border-color: var(--text);
+}
+
+.nav__link--btn::after {
+  display: none;
+}
+
+.nav__link--btn--highlight {
+  background: limegreen;
+  border-color: limegreen;
+  color: #333;
+}
+
+.nav__link--btn--highlight:hover {
+  background: var(--text);
+  border-color: var(--text);
+}
+
+.nav-scrolled {
+  --text: #333;
+  --text-inverse: #f4f4f4;
+  --background: #f4f4f4;
+  box-shadow: 0 3px 20px rgba(0, 0, 0, 0.2);
+}
+
+.home-intro {
+  padding: 50vh 0;
+  background-color:#fff3e6;
+  background-size: cover;
+  background-blend-mode: multiply;
+  color: white;
+  text-align: center;
+}
+.home-about {
+  padding: 4em 0;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.columns {
+  display: flex;
+}
+
+.col + .col {
+  margin-left: 1.5em;
+}
+
+.fade-in {
+  opacity: 0;
+  transition: opacity 250ms ease-in;
+}
+
+.fade-in.appear {
+  opacity: 1;
+}
+
+.more-stuff-grid {
+  background: #f4f4f4;
+  padding: 4em 0;
+  display: grid;
+  grid-gap: 2em;
+  align-items: center;
+  grid-template-columns: minmax(1em, 1fr) repeat(2, minmax(200px, 400px)) minmax(
+      1em,
+      1fr
+    );
+}
+
+.from-left {
+  grid-column: 2 / 3;
+  -webkit-transform: translateX(-50%);
+  transform: translateX(-50%);
+}
+
+.from-right {
+  grid-column: 3 / 4;
+  -webkit-transform: translateX(50%);
+  transform: translateX(50%);
+}
+
+.from-left,
+.from-right {
+  transition: opacity 250ms ease-in, -webkit-transform 400ms ease-in;
+  transition: opacity 250ms ease-in, transform 400ms ease-in;
+  transition: opacity 250ms ease-in, transform 400ms ease-in,
+    -webkit-transform 400ms ease-in;
+  opacity: 0;
+}
+
+.from-left.appear,
+.from-right.appear {
+  -webkit-transform: translateX(0);
+  transform: translateX(0);
+  opacity: 1;
+}
+#progress{
+  height: 15px;
+  background: #000;
+  position: fixed;
+  top: 0;
+  left: 0;
+}
+</style>
+  <body >
+    <div div class="preloader">
+  
+        <img src="https://i.pinimg.com/originals/b0/45/9c/b0459c387ba0a0823713b9de942514a5.gif" >
+        
+    
+      </div>
+      <div id="progress">
+      </div>
+     
+    <header>
+      <a href="#" class="site-logo" style="color:black" aria-label="homepage">NL. EN.</a>
+      
+      <nav class="main-nav">
+        <ul class="nav__list">
+          <li class="nav__list-item"><a href="#" class="nav__link " style="color:black">Crazy About Eggs</a></li>
+           
+      </nav>
+      <nav class="account">
+        <ul class="nav__list">
+          <li class="nav__list-item">
+            <li><a href="#" class="nav__link " class="glyphicon glyphicon-lock" style="color:black;">BUY NOW |</h6></a></li>
+          </li>
+          <li class="nav__list-item">
+            <li><a href="#"  class="nav__link " style="color:black">JOIN THE MOVEMENT!</h6></a></li>
+          </li>
+        </ul>
+      </nav>
+    </header>
+
+    <main>
+      <section class="home-intro">
+        <h3 style="text-align:center;color:#3385ff;margin-top:-150px;"><b>WE MAKE</b></h1>  
+            <h1 style="text-align:center;color:black;display:inline;padding-left:80px;font-size:50px;"><b>THE </b></h1>
+            <h1 style="text-align:center;color:#3385ff;display:inline;font-size:50px;"><b>MOST DELICIOUS</b></h1>
+            <h1 style="color:#3385ff;display: block;margin-left:-300px;font-size:50px"><b>EGG </b></h1>  
+            <h1 style="color:black;display:block;margin-left:140px;margin-top:-69px;font-size:50px;"><b>: A FREE EGG.</b></h1>  
+            <video controls loop style="float:left;margin-top:-200px;" width="500" height="500" autoplay muted>
+              <source src="https://crazyabouteggs.com/assets/videos/chicken-bike-animation/chicken-bike-animation.webm" type="video/mp4">
+              Your browser does not support the video tag.
+              </video>
+            <video controls loop style="float:right;margin-top:-200px;" width="500" height="500" autoplay muted>
+            <source src="https://crazyabouteggs.com/assets/videos/chicken-farmer/chicken-farmer.webm" type="video/mp4">
+            Your browser does not support the video tag.
+            </video>
+            <img style="padding-top: 80px;margin-left:-70px"src="https://crazyabouteggs.com/assets/img/decor/chicken.svg" width=150px>
+            <img style="padding-top: 80px;margin-left:110px;"src="https://crazyabouteggs.com/assets/img/decor/rooster.svg" width=150px>
+            <img style="margin-top:120px;margin-left:-240px"src="https://crazyabouteggs.com/assets/img/egg-small.png" width=50px>
+          <img style="margin-left:-80px;"src="https://crazyabouteggs.com/assets/img/decor/bolt-blue.svg" width=50px>
+          <img style="float:right"src="https://crazyabouteggs.com/assets/img/decor/swirl-blue.svg" width=100px>
+          <img style="margin-right:320px;margin-top:-300px;float:left"src="https://crazyabouteggs.com/assets/img/decor/dot-pink.svg" width=50px>
+          <img style="margin-left:320px;margin-top:-300px;float:right"src="https://crazyabouteggs.com/assets/img/decor/wave-blue.svg" width=50px height=100px>
+          <img style="margin-right:220px;margin-top:-400px;float:left"src="https://crazyabouteggs.com/assets/img/decor/curve-pink.svg" width=25px>
+          <img style="margin-left:320px;margin-top:-400px;float:right"src="https://crazyabouteggs.com/assets/img/decor/dot-yellow.svg" width=50px height=50px>
+          <img style="margin-left:800px;margin-top:-950px;"src="https://crazyabouteggs.com/assets/img/decor/diamond-black.svg" width=50px height=50px>
+          <img style="margin-left:380px;margin-top:-900px;"src="https://crazyabouteggs.com/assets/img/decor/drops-blue.svg" width=50px height=50px>
+          <img style="margin-right:1400px;margin-top:-950px;"src="https://crazyabouteggs.com/assets/img/decor/drops-blue.svg" width=50px height=50px>
+          </section>
+      <marquee behavior="scroll" width="100%" direction="left" style="margin-top:-100px;">
+        <h1 style="font-size:90px;display: inline;font-weight:30px;font-family:'Goudy Stout';">A  </h1>
+        <h1 style="font-size:90px;display: inline;color:#3385ff;font-family:'Goudy Stout';">   DELICIOUS    </h1>
+        <h1 style="font-size:90px;display:inline;font-family:'Goudy Stout';">   STORY   </h1>
+        <h1 style="font-size:90px;display:inline;color:#3385ff;font-family:'Goudy Stout';">   .   </h1>
+        <h1 style="font-size:90px;display: inline;font-weight:30px;font-family:'Goudy Stout';">A  </h1>
+        <h1 style="font-size:90px;display: inline;color:#3385ff;font-family:'Goudy Stout';">   DELICIOUS    </h1>
+        <h1 style="font-size:90px;display:inline;font-family:'Goudy Stout';">   STORY   </h1>
+        <h1 style="font-size:90px;display:inline;color:#3385ff;font-family:'Goudy Stout';">   .   </h1>
+        </marquee>
+        <div>
+        <img style="margin-left:1100px;margin-top:-200px"src="https://crazyabouteggs.com/en/assets/img/egg-1/egg-1-116_1x.webp" width=150px height=125px>
+        <img style="margin-left:300px;margin-top:-80px"src="https://crazyabouteggs.com/en/assets/img/egg-2/egg-2-141_1x.webp" width=150px height=125px>
+        </div>
+        <br><br><br><br><br><br><br><br><br><br><br>
+        <img style="margin-left:650px;margin-bottom:-300px;" src="https://crazyabouteggs.com/assets/img/decor/heart-blue.svg" width=30px height=40px>
+        <img style="margin-left:780px;margin-bottom:-1000px;" src="https://crazyabouteggs.com/assets/img/decor/swirl-blue.svg" width=100px height=100px>
+        <img style="margin-left:950px;margin-bottom:-700px;" src="https://crazyabouteggs.com/assets/img/decor/dot-blue.svg" width=20px height=20px>
+        <img style="margin-left:900px;margin-bottom:-800px;" src="https://crazyabouteggs.com/assets/img/decor/dot-pink.svg" width=20px height=20px>
+        <img style="margin-left:1200px;margin-bottom:-600px;" src="https://crazyabouteggs.com/assets/img/decor/bolt-black.svg" width=100px height=100px>
+        <div style="margin-top:-150px;margin-left:120px">
+          <h3 style="color:black;font-weight:bold;font-size:30px;">EGGS. WE LOVE IT!</h3>
+          <h5 style="float:right;margin-right:50px;margin-top:-50px;font-family:'Lucida Console'">We believe that chickens deserve a normal</h5>
+          <h5 style="float:right;margin-right:10px;margin-top:-30px;font-family:'Lucida Console'">Chicken life on the farm. A life with plenty of</h5>
+          <h5 style="float:right;margin-right:10px;margin-top:-10px;font-family:'Lucida Console'">space, uncut break and the best food in the bowl.</h5>
+          <img style="float:right;margin-right:-400px;margin-top:-2px;" src="https://crazyabouteggs.com/assets/img/decor/carrot.svg"width=100px height=100px>
+          <img style="float:right;margin-right:-300px;margin-top:40px;" src="https://crazyabouteggs.com/assets/img/decor/diamond-yellow.svg"width=40px height=23px>
+          <img style="float:right;margin-right:-250px;margin-top:25px;" src="https://crazyabouteggs.com/assets/img/decor/swirl-pink.svg"width=70px height=50px>
+        </div>
+        <br><br><br><br><br><br><br><br><br><br><br><br><br>
+        <div>
+         <h3 style="margin-left:120px;display:inline;font-size:30px;font-family:'Cooper Black';color:#3385ff">FREE </h3>
+         <h3 style="display:inline;font-size:30px;font-family:'Cooper Black';color:#3385ff">  EGGS</h3>
+         <br>
+         <h1 style="display: inline;margin-left:120px;font-size:80px;font-family:'Cooper Black';color:#3385ff">GET </h1>
+         <h3 style="display:inline;font-size:80px;font-family:'Cooper Black';color:blue"> CRAZY </h3>
+         <h3 style="display:inline;font-size:80px;font-family:'Cooper Black';color:black"> ABOUT </h3>
+         <br>
+         <h1 style="display:inline;margin-left:120px;font-size:80px;font-family:'Cooper Black';color:#3385ff"> EGGS </h1>
+         <h3 style="display:inline;font-size:80px;font-family:'Cooper Black'">  TOO !</h3>
+         <br>
+         <video controls loop style="float:right;margin-top:-200px;" width="500" height="800" autoplay muted>
+          <source src="https://crazyabouteggs.com/assets/videos/chicken-cook/chicken-cook.webm" type="video/mp4">
+          Your browser does not support the video tag.
+          </video>
+          <img style="margin-left:300px;margin-top:150px;" src="https://crazyabouteggs.com/assets/img/decor/bolt-blue.svg" width=90px height=100px>
+        </div>
+        <br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+        <img style="margin-left:100px;margin-bottom:-500px" src="https://crazyabouteggs.com/assets/img/decor/swirl-blue.svg" width=150px height=100px>
+        <img style="margin-left:100px;margin-bottom:-300px" src="https://crazyabouteggs.com/assets/img/decor/dot-pink.svg" width=30px height=30px>
+        <img style="margin-left:100px;margin-bottom:-330px" src="https://crazyabouteggs.com/assets/img/decor/dot-blue.svg" width=20px height=30px>
+        <img style="margin-left:900px;margin-bottom:-990px" src="https://crazyabouteggs.com/assets/img/decor/bucket-eggs.svg" width=150px height=150px>
+        <img  style="margin-left:800px;margin-bottom:-980px"src="https://crazyabouteggs.com/assets/img/decor/wave-black.svg" width=100px height=50px>
+        <img style="margin-left:800px;margin-bottom:-1050px" src="https://crazyabouteggs.com/assets/img/decor/dot-pink.svg" width=30px height=30px>
+        <video controls loop style="margin-bottom:-1450px;margin-left:-700px;" width="300" height="300" autoplay muted>
+          <source src="https://crazyabouteggs.com/assets/videos/leaf-blue-animation/leaf-blue-animation.webm" type="video/mp4">
+          Your browser does not support the video tag.
+          </video>
+          <img style="margin-left:-350px;margin-bottom:-2200px;" src="https://crazyabouteggs.com/assets/img/decor/bolt-black.svg" width=100px height=80px>
+      <div class="home-more-stuff">
+        <div class="more-stuff-grid">
+          <img
+            src="https://crazyabouteggs.com/en/assets/img/imagery/benefits-chickens-526.webp"
+            alt=""
+            class="slide-in from-left img-circle"
+            width=380px
+          />
+          <p class="slide-in from-right">
+            Free eggs Get Crazy About Eggs too!
+            Crazy About Eggs helps organic farmers to become fully organic circular. 
+            Every egg sold contributes to a better chicken life on the farm and a sustainable world 
+            for all of us.
+          </p>
+        </div>
+        <div class="more-stuff-grid">
+          <p class="slide-in from-left">
+            Free-spirited chickens
+            A life you would want if you were a chicken. With good health and enough sleep.
+            The hens feel safe on higher perches and lay their biological eggs in a common nest.
+          </p>
+          <img
+            src="https://crazyabouteggs.com/en/assets/img/imagery/benefits-farmers-526.webp"
+            alt=""
+            class="slide-in from-right img-circle"
+            width=420px
+          />
+        </div>
+        <div class="more-stuff-grid">
+          <img
+            src="https://crazyabouteggs.com/en/assets/img/imagery/benefits-planet-526.webp"
+            alt=""
+            class="slide-in from-left img-circle"
+            width=420px
+          />
+          <p class="slide-in from-right">
+            Happy farmers
+            Our organic and circular farmers receive a higher price for their eggs. 
+            In this way every egg sold helps them to become fully organic circular.
+            That is good for the chickens, good for the farmer and good for our planet.
+          </p>
+        </div>
+        <br><br><br><br>
+        <h3 style="margin-left:650px;display:inline;font-size:30px;font-family:'Cooper Black';color:#3385ff;text-align: center;">OUR </h3>
+         <h3 style="display:inline;font-size:30px;font-family:'Cooper Black';color:#3385ff;text-align: center;">  EGGS</h3>
+         <br>
+         <h1 style="display: inline;margin-left:220px;font-size:80px;font-family:'Cooper Black';color:black;text-align: center;">CHOOSE </h1>
+         <h3 style="display:inline;font-size:80px;font-family:'Cooper Black';color:#3385ff;text-align: center;"> FREE EGGS </h3>
+         <h3 style="display:inline;font-size:80px;font-family:'Cooper Black';color:black;text-align: center;"> FOR </h3>
+         <br>
+         <h1 style="display:inline;margin-left:430px;font-size:80px;font-family:'Cooper Black';color:black;text-align: center;"> MONEY </h1>
+         <h3 style="display:inline;font-size:80px;font-family:'Cooper Black';color: black;text-align: center;">  TOO !</h3>
+         <br><br><br><br>
+
+         <img style="margin-left:190px; margin-bottom: -250px;" src="https://crazyabouteggs.com/assets/img/decor/dot-blue.svg" width=300px height=300px>
+         <img style="margin-left:270px;margin-bottom:-120px;" src="https://crazyabouteggs.com/assets/img/decor/swirl-blue.svg" width=100px height=100px>
+         <h3 style="margin-left:300px;font-family:'Impact';color: black;font-size:30px;">BIO CIRCULAR</h3>
+         <h5 style="margin-left:300px;font-family:'Lucida Console';color: black;">The farm is circular and </h5>
+         <h5 style="margin-left:300px;font-family:'Lucida Console';color: black;">the farmer works from a  </h5>
+         <h5 style="margin-left:300px;font-family:'Lucida Console';color: black;">holistic view of agriculture.</h5>
+         <h5 style="margin-left:300px;font-family:'Lucida Console';color: black;">Naturally without pollution</h5>
+         <h5 style="margin-left:300px;font-family:'Lucida Console';color: black;">and CO2 material</h5>
+         <img style="margin-left:800px;margin-top:-250px" src="https://crazyabouteggs.com/assets/videos/products-chicken03/products-chicken03.png" width=400px height=400px>
+        
+         <img style="margin-left:180px;margin-top:-100px" src="https://crazyabouteggs.com/assets/videos/products-chicken02/products-chicken02.png" width=400px height=400px>
+         <div style="margin-top:-230px">
+          <img style="margin-left:1100px;margin-bottom:-80px;" src="https://crazyabouteggs.com/assets/img/decor/wave-black.svg" width=20px height=60px>
+          <img style="margin-left:990px"src="https://crazyabouteggs.com/assets/img/decor/dot-yellow.svg"  width=78px height=10px>
+          <img style="margin-left:950px"src="https://crazyabouteggs.com/assets/img/decor/dot-yellow.svg"  width=78px height=10px>
+          <img style="margin-left:880px;margin-bottom:-280px;" src="https://crazyabouteggs.com/assets/img/decor/swirl-black.svg" width=100px height=100px>
+          
+          <h3 style="margin-left:1000px;font-family:'Impact';color: black;font-size:30px;">LESS THAN</h3>
+          <h3 style="margin-left:1000px;font-family:'Impact';color:#3385ff;font-size:30px;">2 CHICKENS</h3>
+          <h3 style="margin-left:1000px;font-family:'Impact';color:black;font-size:30px;">PER DAY</h3>
+          
+          <img style="margin-left:320px;margin-top:-400px;float:right"src="https://crazyabouteggs.com/assets/img/decor/dot-yellow.svg" width=600px height=600px>
+         </div>
+         <br><br><br><br><br>
+        
+         <div>
+          <img style="margin-left:120px;margin-bottom:-30px;"src="https://crazyabouteggs.com/assets/img/decor/dot-pink.svg"  width=20px height=10px>
+          <img style="margin-left:100px;margin-bottom:-470px;position: relative;" src="https://crazyabouteggs.com/assets/img/decor/swirl-black.svg" width=100px height=100px>
+          <h3 style="margin-left:300px;font-family:'Impact';color: black;font-size:30px;position: absolute;">FORAGING WITH<br><br >ROOBSTERS<br><br>AND HENS</h3>
+          
+          <img style="margin-left:100px; margin-top: -200px;"src="https://crazyabouteggs.com/assets/img/decor/dot-pink.svg"  width=600px height=450px>
+         </div>
+          <br><br>
+         <img style="margin-left:800px;margin-top:-300px" src="https://crazyabouteggs.com/assets/videos/products-chicken03/products-chicken03.png" width=400px height=400px>
+
+         <img style="margin-left:990px" src="https://crazyabouteggs.com/assets/img/decor/leaf.svg" width=40px height=50px>
+         <img style="margin-left:870px;margin-bottom:-120px;" src="https://crazyabouteggs.com/assets/img/decor/swirl-blue.svg" width=100px height=100px>
+         <h3 style="margin-left:1000px;font-family:'Impact';color: black;font-size:30px;">BIO FAIR</h3>
+         <h5 style="margin-left:1000px;font-family:'Lucida Console';color: black;">The farm is completely organic</h5>
+         <h5 style="margin-left:1000px;font-family:'Lucida Console';color: black;">and follows atleast three biodynamic </h5>
+         <h5 style="margin-left:1000px;font-family:'Lucida Console';color: black;">guidelines.The chicken's</h5>
+         <h5 style="margin-left:1000px;font-family:'Lucida Console';color: black;">feed is completely</h5>
+         <h5 style="margin-left:1000px;font-family:'Lucida Console';color: black;">GMO free</h5>
+         <br><br><br><br>
+
+         <img style="margin-left: 200px;margin-top:-310px;" src="https://crazyabouteggs.com/assets/img/product-images/comp/6eggs_comp.webp" width=550px height=800px>      
+        <div style="margin-top:-500px">
+         <img style="margin-left:1150px;margin-bottom:-120px;" src="https://crazyabouteggs.com/assets/img/decor/wave-black.svg" width=20px height=30px>
+         <img style="margin-left:990px"src="https://crazyabouteggs.com/assets/img/decor/dot-blue.svg"  width=78px height=10px>
+         <img style="margin-left:950px"src="https://crazyabouteggs.com/assets/img/decor/dot-blue.svg"  width=78px height=10px>
+         <img style="margin-left:1000px;margin-bottom:-420px;" src="https://crazyabouteggs.com/assets/img/decor/swirl-black.svg" width=100px height=100px>
+         <h3 style="margin-left:1000px;font-family:'Impact';color: black;font-size:30px;">THE MOST</h3>
+         <h3 style="margin-left:1000px;font-family:'Impact';color:#3385ff;font-size:30px;">FREE EGGS IN</h3>
+         <h3 style="margin-left:1000px;font-family:'Impact';color:black;font-size:30px;">A BIO CIRCULAR BOX</h3>
+        </div>
+         <br><br><br><br><br><br><br><br><br>
+         
+         <img style="margin-left:290px" src="https://crazyabouteggs.com/assets/img/decor/grass.svg" width=40px height=50px>
+         <img style="margin-left:17px;margin-bottom:-520px;" src="https://crazyabouteggs.com/assets/img/decor/swirl-blue.svg" width=100px height=100px>
+         <h3 style="margin-left:300px;font-family:'Impact';color: black;font-size:30px;">EGGSPERIENCE</h3>
+         <h3 style="margin-left:300px;font-family:'Impact';color: black;font-size:30px;">THE DELICIOUS</h3>
+         <h5 style="margin-left:300px;font-family:'Lucida Console';color: black;">Our eggs are good</h5>
+         <h5 style="margin-left:300px;font-family:'Lucida Console';color: black;">for the chicken, the </h5>
+         <h5 style="margin-left:300px;font-family:'Lucida Console';color: black;">farmers, the environment</h5>
+         <h5 style="margin-left:300px;font-family:'Lucida Console';color: black;">and you</h5>
+         <img style="margin-left:770px;margin-top:-180px;" src="https://crazyabouteggs.com/assets/img/decor/bolt-long.svg" width=400px height=100px>
+         <br><br><br><br>
+
+        <section class="home-intro">
+            <h3 style="text-align:center;color:#3385ff;margin-top:-150px;"><b>WE </b></h1>  
+                <h1 style="text-align:center;color:black;display:inline;padding-left:80px;font-size:50px;"><b>DO </b></h1>
+                <h1 style="text-align:center;color:#3385ff;display:inline;font-size:50px;"><b>HOME DELIVERY</b></h1>
+                <h1 style="color:#3385ff;display: block;margin-left:-300px;font-size:50px"><b>EGG </b></h1>  
+                <h1 style="color:black;display:block;margin-left:200px;margin-top:-69px;font-size:50px;"><b>: TO DOORSTEP</b></h1>  
+                <video controls loop style="float:left;margin-top:-200px;" width="500" height="500" autoplay muted>
+                <source src="https://crazyabouteggs.com/assets/videos/chicken-bike-animation/chicken-bike-animation.webm" type="video/mp4">
+                Your browser does not support the video tag.
+                </video>
+                <video controls loop style="float:right;margin-top:-200px;" width="500" height="500" autoplay muted>
+                <source src="https://crazyabouteggs.com/assets/videos/chicken-customer-service/chicken-customer-service.webm" type="video/mp4">
+                Your browser does not support the video tag.
+                </video>
+                <img style="padding-top: 80px;margin-left:-70px"src="https://crazyabouteggs.com/assets/img/decor/chicken.svg" width=150px>
+                <img style="padding-top: 80px;margin-left:110px;"src="https://crazyabouteggs.com/assets/img/decor/rooster.svg" width=150px>
+                <img style="margin-top:120px;margin-left:-240px"src="https://crazyabouteggs.com/assets/img/egg-small.png" width=50px>
+          <img style="margin-left:-80px;"src="https://crazyabouteggs.com/assets/img/decor/bolt-blue.svg" width=50px>
+          <img style="float:right"src="https://crazyabouteggs.com/assets/img/decor/swirl-blue.svg" width=100px>
+          <img style="margin-right:320px;margin-top:-300px;float:left"src="https://crazyabouteggs.com/assets/img/decor/dot-pink.svg" width=50px>
+          <img style="margin-left:320px;margin-top:-300px;float:right"src="https://crazyabouteggs.com/assets/img/decor/wave-blue.svg" width=50px height=100px>
+          <img style="margin-right:220px;margin-top:-400px;float:left"src="https://crazyabouteggs.com/assets/img/decor/curve-pink.svg" width=25px>
+          <img style="margin-left:320px;margin-top:-400px;float:right"src="https://crazyabouteggs.com/assets/img/decor/dot-yellow.svg" width=50px height=50px>
+          <img style="margin-left:800px;margin-top:-950px;"src="https://crazyabouteggs.com/assets/img/decor/diamond-black.svg" width=50px height=50px>
+          <img style="margin-left:380px;margin-top:-900px;"src="https://crazyabouteggs.com/assets/img/decor/drops-blue.svg" width=50px height=50px>
+          <img style="margin-right:1400px;margin-top:-950px;"src="https://crazyabouteggs.com/assets/img/decor/drops-blue.svg" width=50px height=50px>
+                
+                <div class="input-group"style="margin-top:120px;margin-left:500px">
+                    <div class="form-outline">
+                      <input id="search-focus" type="search" id="form1" class="form-control" />
+                      <label class="form-label" for="form1"><p style="color:black">Search</p></label>
+                    </div>
+                    <button type="button" class="btn btn-primary">
+                      <i class="fa fa-search"></i>
+                    </button>
+                  </div>
+          </section>  
+          <marquee behavior="scroll" width="100%" direction="left" style="margin-top:-100px;">
+            <h1 style="font-size:90px;display: inline;font-weight:30px;font-family:'Goudy Stout';">A  </h1>
+            <h1 style="font-size:90px;display: inline;color:#3385ff;font-family:'Goudy Stout';">   DELICIOUS    </h1>
+            <h1 style="font-size:90px;display:inline;font-family:'Goudy Stout';">   STORY   </h1>
+            <h1 style="font-size:90px;display:inline;color:#3385ff;font-family:'Goudy Stout';">   .   </h1>
+            <h1 style="font-size:90px;display: inline;font-weight:30px;font-family:'Goudy Stout';">A  </h1>
+            <h1 style="font-size:90px;display: inline;color:#3385ff;font-family:'Goudy Stout';">   DELICIOUS    </h1>
+            <h1 style="font-size:90px;display:inline;font-family:'Goudy Stout';">   STORY   </h1>
+            <h1 style="font-size:90px;display:inline;color:#3385ff;font-family:'Goudy Stout';">   .   </h1>
+            </marquee>   
+            <div>
+              <img style="margin-left:1100px;margin-top:-200px"src="https://crazyabouteggs.com/en/assets/img/egg-1/egg-1-116_1x.webp" width=150px height=125px>
+              <img style="margin-left:300px;margin-top:-80px"src="https://crazyabouteggs.com/en/assets/img/egg-2/egg-2-141_1x.webp" width=150px height=125px>
+              </div>  
+              <br><br><br><br><br><br><br><br><br><br><br><br>
+
+             <img style="margin-left:60px;" src="https://crazyabouteggs.com/assets/img/decor/dot-blue.svg" width=450px height=300px>
+             <img style="margin-left:260px;margin-top:-50px" src="https://crazyabouteggs.com/assets/img/decor/dot-blue.svg" width=450px height=300px>
+             <img style="margin-left:390px;margin-top:-350px;" src="https://crazyabouteggs.com/assets/img/decor/dot-blue.svg" width=450px height=300px>
+            
+             <div style="margin-top:-300px">
+              <img style="margin-left: 100px;margin-top:-50px;" src="https://crazyabouteggs.com/assets/img/product-images/product-eggs-6-pack-363.png" width=350px height=350px>
+
+              <h3 style="color: black;font-family:'Impact';font-weight:bold;font-size:30px;margin-left:200px;">X4 PACK</h3> 
+              <h5 style="color: black;font-family:'Lucida Console';margin-left:200px;">One egg is not an egg , </h3> 
+                <h5 style="color: black;font-family:'Lucida Console';margin-left:200px;">So you get four.</h3> 
+                  <h5 style="color:#3385ff;font-family:'Impact';font-weight:bold;margin-left:230px;">BIO CIRCULAR</h5>
+                  <h5 style="color: black;font-family:'Lucida Console';margin-left:200px;">The Circular egg of free, </h3> 
+                    <h5 style="color: black;font-family:'Lucida Console';margin-left:200px;">spirited chickens</h3> 
+                    </div>
+                   
+                  
+                   <div style="margin-top:-550px;">
+                    <img style="margin-left: 450px" src="https://crazyabouteggs.com/assets/img/product-images/product-eggs-4-pack-363.png" width=350px height=350px>
+                      <h3 style="color: black;font-family:'Impact';font-weight:bold;font-size:30px;margin-left:600px;">X6 PACK</h3> 
+              <h5 style="color: black;font-family:'Lucida Console';margin-left:600px;">One egg, two egg ,  </h3> 
+                <h5 style="color: black;font-family:'Lucida Console';margin-left:600px;">Six pack!</h3> 
+                  <h5 style="color:#3385ff;font-family:'Impact';font-weight:bold;margin-left:630px;">BIO CIRCULAR</h5>
+                  <h5 style="color: black;font-family:'Lucida Console';margin-left:600px;">The Circular egg of free, </h3> 
+                    <h5 style="color: black;font-family:'Lucida Console';margin-left:600px;">spirited chickens</h3> 
+                    </div>
+
+                    <div style="margin-top:-550px;">
+                      <img style="margin-left: 880px" src="https://crazyabouteggs.com/assets/img/product-images/product-eggs-8-pack-363.png" width=250px height=350px>
+
+                      <h3 style="color: black;font-family:'Impact';font-weight:bold;font-size:30px;margin-left:1000px;">X8 PACK</h3> 
+              <h5 style="color: black;font-family:'Lucida Console';margin-left:1000px;">Ready for the whole week,  </h3> 
+                <h5 style="color: black;font-family:'Lucida Console';margin-left:1000px;">in 1 day</h3> 
+                  <h5 style="color:#3385ff;font-family:'Impact';font-weight:bold;margin-left:1030px;">BIO CIRCULAR</h5>
+                  <h5 style="color: black;font-family:'Lucida Console';margin-left:1000px;">The Circular egg of free, </h3> 
+                    <h5 style="color: black;font-family:'Lucida Console';margin-left:1000px;">spirited chickens</h3> 
+                    </div>
+
+              <br><br><br><br><br><br><br><br>
+               
+              <video controls loop style="float:left;margin-left:-100px;" width="300" height="300" autoplay muted>
+                <source src="https://crazyabouteggs.com/assets/videos/leaf-black-animation/leaf-black-animation.webm" type="video/mp4">
+                Your browser does not support the video tag.
+                </video>
+
+                <video controls loop style="float:right;margin-right:-100px;margin-top:10px;" width="300" height="300" autoplay muted>
+                  <source src="https://crazyabouteggs.com/assets/videos/leaf-black-animation/leaf-black-animation.webm" type="video/mp4">
+                  Your browser does not support the video tag.
+                  </video>
+            <img style="margin-left:200px;margin-bottom:-300px;"src="https://crazyabouteggs.com/assets/img/decor/drops-black.svg" width=100px height=100px>
+            <img style="margin-left:250px;margin-bottom:-550px;"src="https://crazyabouteggs.com/assets/img/decor/swirl-black.svg" width=100px height=100px>
+             <div style="background-color: #3385ff;">
+              <br><br><br><br>
+
+              <h3 style="margin-left:-50px;font-size:30px;font-family:'Lucida Console';color:black;text-align: center;font-weight: bold;">AVAILABLE SOON </h3>
+              
+              <h1 style="margin-right:70px;font-size:80px;font-family:'Arial Black';color:white;text-align: center;">WHAT WE ARE </h1>
+              <h1 style="margin-left:-50px;font-family:'Arial Black';color:white;text-align: center;font-size:80px;"> BROODING ON! </h1>
+             
+              <h5 style="margin-left:-50px;font-size:15px;font-family:'Lucida Console';color:black;text-align: center;font-weight: bold;">IF THE CHICKENS WANT IT </h5>
+               
+              <img style="margin-left:60px;" src="https://crazyabouteggs.com/assets/img/decor/dot-pink.svg" width=450px height=300px>
+              <img style="margin-left:260px;margin-top:-50px" src="https://crazyabouteggs.com/assets/img/decor/dot-yellow.svg" width=450px height=300px>
+              <img style="margin-left:390px;margin-top:-350px;" src="https://crazyabouteggs.com/assets/img/decor/dot-pink.svg" width=450px height=300px>
+             
+              <div style="margin-top:-300px">
+               <img style="margin-left: 100px;margin-top:-50px;" src="https://crazyabouteggs.com/assets/img/product-images/product-eggs-6-pack-363.png" width=350px height=350px>
+ 
+               <h3 style="color: white;font-family:'Impact';font-size:30px;margin-left:200px;">EGG BOX</h3> 
+               <h5 style="color:white;font-family:'Lucida Console';margin-left:200px;">Everything you need for the</h5> 
+                 <h5 style="color:white;font-family:'Lucida Console';margin-left:200px;">start of your weekend full of</h5> 
+                   <h5 style="color:white;font-family:'Lucida Console';margin-left:200px;">goodies,cook,eat, </h5> 
+                     <h5 style="color:white;font-family:'Lucida Console';margin-left:200px;">relax,repeat.</h5> 
+                     </div>
+                    
+                   
+                    <div style="margin-top:-550px;">
+                     <img style="margin-left: 450px" src="https://crazyabouteggs.com/assets/img/product-images/product-eggs-4-pack-363.png" width=350px height=350px>
+                       <h3 style="color:white;font-family:'Impact';font-size:30px;margin-left:600px;">EGG POWDER</h5> 
+               <h5 style="color:white;font-family:'Lucida Console';margin-left:600px;">Our protein is perfect</h5> 
+                 <h5 style="color:white;font-family:'Lucida Console';margin-left:600px;">for anyone looking to</h5>
+                   <h5 style="color:white;font-family:'Lucida Console';margin-left:600px;">increase protein intake.</h5> 
+                     </div>
+ 
+                     <div style="margin-top:-550px;">
+                       <img style="margin-left: 880px" src="https://crazyabouteggs.com/assets/img/product-images/product-eggs-8-pack-363.png" width=250px height=350px>
+ 
+                       <h3 style="color:white;font-family:'Impact';font-size:30px;margin-left:1000px;">COOKED EGGS</h3> 
+               <h5 style="color:white;font-family:'Lucida Console';margin-left:1000px;">Two hard boiled beautiful </h3> 
+                 <h5 style="color:white;font-family:'Lucida Console';margin-left:1000px;">bio fair eggs, ready to eat</h3> 
+                   <h5 style="color:white;font-family:'Lucida Console';margin-left:1000px;">as a stack or a starter.</h3> 
+                     </div>
+ 
+              <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+            </div>
+            <br><br><br><br><br><br>
+              <h3 style="text-align:center;color: blue;font-family:'Bauhaus 93';font-size:30px;">AVAILABLE SOON</h3>
+              <h1 style="text-align:center;color: black;font-family:'Bauhaus 93';font-size:120px;">DELIVERY AT HOME</h1>
+              <img style="margin-left:375px;margin-top:-250px;" src="https://crazyabouteggs.com/assets/img/decor/drops-blue.svg" width=100px height=100px>
+              <img style="margin-left:425px;margin-top:-100px;" src="https://crazyabouteggs.com/assets/img/decor/diamond-blue.svg" width=50px height=20px>
+              <img style="margin-left:955px;margin-top:10px;margin-bottom:-280px;" src="https://crazyabouteggs.com/en/assets/img/egg-2/egg-2-141_1x.webp" width=150px height=125px>
+              <img style="margin-left:625px;margin-top:10px;margin-bottom:-220px;" src="https://crazyabouteggs.com/assets/img/decor/chicken-bike-blue.svg" width=250px height=305px>
+             
+        <div class="more-stuff-grid">
+            <p class="slide-in from-left">
+                Direct from the farm to your kitchen. With a smile from our chickens.
+                Fresh free eggs delivered to your home every two weeks. That makes us all blue.
+                Even better for the environment, better for the chicken and for the farmer's margins.
+            </p>
+            <img
+              src="https://crazyabouteggs.com/en/assets/img/imagery/delivery-524.webp"
+              alt=""
+              class="slide-in from-right img-circle"
+              width=420px
+            />
+          </div>
+          <div class="home-about">
+            <h1 style="font-size:90px;display: inline;font-weight:30px;font-family:'Arial';"><b>Our Goal</b></h1>
+            <p></p>
+            <h1 style="text-align:center;color:#3385ff;display:inline;font-size:50px;"><b>Why we do it</b></h1>
+            <img style="margin-left:-385px;margin-top:-250px;" src="https://crazyabouteggs.com/assets/img/decor/drops-blue.svg" width=100px height=100px>
+            <img style="margin-left:-458px;margin-top:-100px;" src="https://crazyabouteggs.com/assets/img/decor/diamond-black.svg" width=50px height=30px>
+            <div class="columns">
+              <div class="col fade-in">
+                <h3>Free-spirited chicken</h3>
+                <p>
+                    Support a freer life for all chickens
+                </p>
+              </div>
+              <div class="col fade-in">
+                <h3>Happy farmers</h3>
+                <p>
+                    Every egg sold contributes to a better margin
+                </p>
+              </div>
+              <div class="col fade-in">
+                <h3>Good for you</h3>
+                <p>
+                    Knowing about the chicken and the egg,
+                    transparency in the chain,
+                    which is good for you
+                </p>
+                <img style="margin-left:455px;margin-top:10px;margin-bottom:-380px;" src="https://crazyabouteggs.com/en/assets/img/egg-2/egg-2-141_1x.webp" width=150px height=125px>
+                <img style="margin-left:105px;margin-top:10px;margin-bottom:-360px;" src="https://crazyabouteggs.com/assets/img/decor/chicken-bike-blue.svg" width=250px height=405px>
+               
+              </div>
+            </div>
+          </div>
+          <div class="more-stuff-grid">
+            <p class="slide-in from-left">
+                Customer Service
+                Our eggsperts will help you
+            </p>
+            <img
+              src="https://crazyabouteggs.com/en/assets/img/testimonials/testimonial-1.webp"
+              alt=""
+              class="slide-in from-right img-circle"
+              width=420px
+            />
+          </div>
+<br><br><br>
+        <img style="margin-left:705px;margin-bottom:-280px;" src="https://crazyabouteggs.com/assets/img/decor/heart-black.svg" width=40px height=40px>
+        <img style="margin-left:780px;margin-bottom:-600px;" src="https://crazyabouteggs.com/assets/img/decor/swirl-blue.svg" width=100px height=100px>
+        <img style="margin-left:950px;margin-bottom:-300px;" src="https://crazyabouteggs.com/assets/img/decor/dot-blue.svg" width=20px height=20px>
+        <img style="margin-left:900px;margin-bottom:-400px;" src="https://crazyabouteggs.com/assets/img/decor/dot-pink.svg" width=20px height=20px>
+        <img style="margin-left:1200px;margin-bottom:-400px;" src="https://crazyabouteggs.com/assets/img/decor/bolt-black.svg" width=100px height=100px>
+
+<div class="above footer">
+  <h3 style="margin-left:120px;display:inline;font-size:30px;font-family:'Cooper Black';color:#3385ff">CUSTOMER </h3>
+  <h3 style="display:inline;font-size:30px;font-family:'Cooper Black';color:#3385ff">  SERVICE</h3>
+  <br>
+  <h1 style="display: inline;margin-left:120px;font-size:80px;font-family:'Cooper Black';color:#3385ff">OUR </h1>
+  <h3 style="display:inline;font-size:80px;font-family:'Cooper Black';color:blue"> EGGSPERTS </h3>
+  <h3 style="display:inline;font-size:80px;font-family:'Cooper Black';color:black"> WILL </h3>
+  <br>
+  <h1 style="display:inline;margin-left:120px;font-size:80px;font-family:'Cooper Black';color:#3385ff"> HELP </h1>
+  <h3 style="display:inline;font-size:80px;font-family:'Cooper Black'">  YOU !</h3>
+  <video controls loop style="float:right;margin-top:-200px;z-index:700px;" width=300 height=500 autoplay muted>
+    <source src="https://crazyabouteggs.com/assets/videos/chicken-customer-service/chicken-customer-service.webm" type="video/mp4">
+    Your browser does not support the video tag.
+    </video>
+</div>
+<br><br><br><br><br><br><br><br><br>
+<div>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th></th>
+        <th></th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><i class="fa fa-whatsapp" style="color:blue;font-size:30px;text-align:centre;font-weight:bold;padding-top:15px;">   WHATS APP</i></td>
+        <td><h3 style="color:black;font-size:30px;font-family:'Showcard Gothic'">MONDAY TO SUNDAY FROM 9AM TO 6PM</h3></td>
+        <td><h3 style="color:black;font-size:20px;font-family:'Lucida Console'">0031 (6) 3049 8031</h3></td>
+      </tr>
+      <tr>
+        <td><i class="fa fa-envelope" style="color:blue;font-size:30px;text-align:centre;font-weight:bold;padding-top:15px;">   E-MAIL</i></td>
+        <td><h3 style="color:black;font-size:30px;font-family:'Showcard Gothic'">ANSWER WITHIN AN HOUR ON WORKING DAYS</h3></td>
+        <td><h3 style="color:black;font-size:20px;font-family:'Lucida Console'">hello@crazyabouteggs.com</h3></td>
+      </tr>
+      <tr>
+        <td><i class="fa fa-phone" style="color:blue;font-size:30px;text-align:centre;font-weight:bold;padding-top:15px;">   PHONE</i></td>
+        <td><h3 style="color:black;font-size:30px;font-family:'Showcard Gothic'">MONDAY TO SUNDAY FROM 9AM TO 6PM</h3></td>
+        <td><h3 style="color:black;font-size:20px;font-family:'Lucida Console'">020-15672344</h3></td>
+      </tr>
+      <tr>
+        <td><i class="fa fa-question" style="color:blue;font-size:30px;text-align:centre;font-weight:bold;padding-top:15px;">   FAQ's</i></td>
+        <td><h3 style="color:black;font-size:30px;font-family:'Showcard Gothic'">QUESTIONS TO OUR PEOPLE FARMERS AND CHICKENS</h3></td>
+        <td><a href='#1234' h3 style="color:black;font-size:20px;font-family:'Lucida Console';display: inline;padding-top:15px;">  <u>SHOW ALL</u></h3><i class="fa fa-angle-down" style="color:blue;font-size:30px;text-align:centre;font-weight:bold;padding-top:15px;padding-left:5px;display:inline"></i></td></a>
+      </tr>
+      <tr>
+        <td></td>
+        <td></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<img style="margin-left:300px" src="https://crazyabouteggs.com/assets/img/decor/bolt-long.svg" width=800px height=300px>
+<br><br><br><br><br><br><br><br><br><br><br><br>
+<footer class="page-footer font-small mdb-color pt-4" style="background-color: #3385ff;">
+
+    
+    <div class="container text-center text-md-left">
+  
+      
+      <div class="row text-center text-md-left mt-3 pb-3">
+  
+        
+        <div class="col-md-3 col-lg-3 col-xl-3 mx-auto mt-3">
+          <h3 class="text-uppercase mb-4 font-weight-bold"><b>Crazyabouteggs</b></h3>
+          <p style="color: #f4f4f4;">Call us crazy!
+            A life you would want if you were a chicken. Wihtout clipping beaks and wings.
+             With good health and enough sleep.
+             The hens feel safe on higher perches and lay their biological eggs in a common nes</p>
+        </div>
+        
+  
+        <hr class="w-100 clearfix d-md-none">
+  
+        
+        <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mt-3">
+          <h3 class="text-uppercase mb-4 font-weight-bold"><b>Products</b></h3>
+          <p>
+            <a href="#!" style="font-size: medium; font: bold; color: #f4f4f4;">Eggpower</a>
+          </p>
+          <p>
+            <a href="#!" style="font-size: medium; font: bold; color: #f4f4f4;">Egg Yorgurt</a>
+          </p>
+          <p>
+            <a href="#!" style="font-size: medium; font: bold; color: #f4f4f4;">Egg Box</a>
+          </p>
+          <p>
+            <a href="#!" style="font-size: medium; font: bold; color: #f4f4f4;">Cooked Egggs</a>
+          </p>
+        </div>
+          
+        <hr class="w-100 clearfix d-md-none">
+  
+        
+        <div class="col-md-3 col-lg-2 col-xl-2 mx-auto mt-3">
+          <h3 class="text-uppercase mb-4 font-weight-bold"><b>Contact</b></h3>
+          <p>
+            <a href="#!" style="font-size: small; font: bold; color: #f4f4f4;">
+                Monday to Sunday, from 9am to 6pm
+                0031 (6) 3049 8031</a>
+          </p>
+          <p>
+            <a href="#!" style="font-size: small; font: bold; color: #f4f4f4;">Answer within an hour on working days
+                hello@crazyabouteggs.com</a>
+          </p>
+          <p>
+            <a href="#!" style="font-size: small; font: bold; color: #f4f4f4;">
+                Monday to Sunday, from 9am to 6pm
+                020-15672344</a>
+          </p>
+          <p>
+            <a href="#!" style="font-size: small; font: bold; color: #f4f4f4;">Questions to our people, farmers and chickens
+            </a>
+          </p>
+        </div>
+  
+        
+        <hr class="w-100 clearfix d-md-none">
+  
+        
+        <div class="col-md-4 col-lg-3 col-xl-3 mx-auto mt-3">
+          <h3 class="text-uppercase mb-4 font-weight-bold"><b>Address</b></h3>
+          <p>
+            <i class="fa fa-home mr-3" style="color :#f4f4f4;" ></i> New York, NY 10012, US</p>
+          <p>
+            <i class="fa fa-envelope mr-3" style="color: #f4f4f4;"></i> crazyabouteggs@gmail.com</p>
+          <p>
+            <i class="fa fa-phone mr-3" style="color: #f4f4f4;"></i> +0031 (6) 3049 8031</p>
+          <p>
+            <i class="fa fa-print mr-3" style="color: #f4f4f4;"></i> +0031 (6) 3049 8031</p>
+        </div>
+        
+  
+      </div>
+        
+      <hr>
+  
+      
+      <div class="row d-flex align-items-center">
+  
+        
+        <div class="col-md-7 col-lg-8">
+  
+          
+          <p class="text-center text-md-left">© 2021 Copyright:
+            <a href="https://crazyabouteggs.com/">
+              <strong> crazyabouteggs.com</strong>
+            </a>
+          </p>
+  
+        </div>
+        
+        <div class="col-md-5 col-lg-4 ml-lg-0">
+  
+        
+          <div class="text-center text-md-right">
+            <ul class="list-unstyled list-inline">
+              <li class="list-inline-item">
+                <a class="btn-floating btn-sm rgba-white-slight mx-1">
+                  <i class="fa fa-facebook"></i>
+                </a>
+              </li>
+              <li class="list-inline-item">
+                <a class="btn-floating btn-sm rgba-white-slight mx-1">
+                  <i class="fa fa-twitter"></i>
+                </a>
+              </li>
+              <li class="list-inline-item">
+                <a class="btn-floating btn-sm rgba-white-slight mx-1">
+                  <i class="fa fa-google"></i>
+                </a>
+              </li>
+              <li class="list-inline-item">
+                <a class="btn-floating btn-sm rgba-white-slight mx-1">
+                  <i class="fa fa-linkedin"></i>
+                </a>
+              </li>
+            </ul>
+          </div>
+  
+        </div>
+        
+  
+      </div>
+      
+  
+    </div>
+    
+    <img style="float:right;margin-top:-400px;" width="400" height="350" 
+    src="https://crazyabouteggs.com/assets/videos/products-chicken03/products-chicken03.png">
+    <img style="float:left;margin-top:-400px;" width="350" height="350" 
+    src="https://crazyabouteggs.com/assets/videos/products-chicken02/products-chicken02.png">
+    
+  
+  </footer>
+  
+    
+    </main>
+    
+    <script>
+        const header = document.querySelector("header");
+const sectionOne = document.querySelector(".home-intro");
+
+const faders = document.querySelectorAll(".fade-in");
+const sliders = document.querySelectorAll(".slide-in");
+
+const sectionOneOptions = {
+  rootMargin: "-200px 0px 0px 0px"
+};
+
+const sectionOneObserver = new IntersectionObserver(function(
+  entries,
+  sectionOneObserver
+) {
+  entries.forEach(entry => {
+    if (!entry.isIntersecting) {
+      header.classList.add("nav-scrolled");
+    } else {
+      header.classList.remove("nav-scrolled");
+    }
+  });
+},
+sectionOneOptions);
+
+sectionOneObserver.observe(sectionOne);
+
+const appearOptions = {
+  threshold: 0,
+  rootMargin: "0px 0px -250px 0px"
+};
+
+const appearOnScroll = new IntersectionObserver(function(
+  entries,
+  appearOnScroll
+) {
+  entries.forEach(entry => {
+    if (!entry.isIntersecting) {
+      return;
+    } else {
+      entry.target.classList.add("appear");
+      appearOnScroll.unobserve(entry.target);
+    }
+  });
+},
+appearOptions);
+
+faders.forEach(fader => {
+  appearOnScroll.observe(fader);
+});
+
+sliders.forEach(slider => {
+  appearOnScroll.observe(slider);
+});
+
+const preloader = document.querySelector('.preloader');
+
+const fadeEffect = setInterval(() => {
+  
+  if (!preloader.style.opacity) {
+    preloader.style.opacity = 1;
+  }
+  if (preloader.style.opacity > 0) {
+    preloader.style.opacity -= 0.1;
+  } else {
+    clearInterval(fadeEffect);
+  }
+}, 500);
+window.addEventListener('load', fadeEffect);
+    </script>
+    <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+    <script type="text/javascript">
+    $(window).scroll(function(){
+      var scroll = $(window).scrollTop(),
+      dh= $(document).height(),
+      wh=$(window).height();
+      value=(scroll / (dh-wh))*100;
+      $('#progress').css('width',value+"%");
+    })
+    $</script>
+  </body>
+</html>
